@@ -9,7 +9,10 @@ sys.path.append("../")
 from timelogger import total_time
 
 ## botの使い方
-helpMessage = "VCに入ることで研究時間を記録します\n" + "コマンド一覧\n"
+lines = []
+with open(r'../doc/manual.md', encoding='utf-8') as f:
+    lines = f.readlines()
+helpMessage = ''.join(lines)
 
 load_dotenv()
 JST = timezone(timedelta(hours=+9), 'JST')
@@ -28,20 +31,17 @@ async def on_ready():
     print('ログインしました')
 
 @client.event
-async def on_message(message):
-    print('message event')
-
-@client.event
 async def on_voice_state_update(member, before, after): 
     now = datetime.now(JST)
-    if '室' in after.channel.name:
-        print("%s : %sに参加しました",now.strftime('%Y-%m-%d %H:%M:%S'), after.channel.name)
+    if after.channel != None and '室' in after.channel.name:
+        print("%s : %sに参加しました",now, after.channel.name)
         channel = client.get_channel(874633285047840768)
         await channel.send(f"{member.name}が{after.channel.name}に参加しました")
-    elif '室' in before.channel.name:
-        print("%s : %sを退出しました",now.strftime('%Y-%m-%d %H:%M:%S'), before.channel.name)
+    elif before.channel != None and '室' in before.channel.name:
+        print("%s : %sを退出しました",now, before.channel.name)
         channel = client.get_channel(874633285047840768)
         await channel.send(f"{member.name}が{before.channel.name}を退出しました")
+    
 
 
 @tree.command(name="total_time",description="合計時間を表示します")
