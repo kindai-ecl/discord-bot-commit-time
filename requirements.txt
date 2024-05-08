@@ -1,0 +1,9 @@
+# discord bot
+discord.py==2.3.2
+
+# db orm
+SQLAlchemy==2.0.29
+
+# grobal
+multidict==6.0.5
+python-dotenv==1.0.1
