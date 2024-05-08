@@ -1,6 +1,7 @@
+from datetime import datetime, timedelta
 from db.settings import session
 from db.schema import User, TimeLog
-from datetime import datetime, timedelta
+
 
 def total_time(user_id: int):
     # ユーザーの合計時間を取得する

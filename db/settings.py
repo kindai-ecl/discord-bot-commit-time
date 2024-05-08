@@ -4,8 +4,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 # DBファイルの作成
-if not os.path.isfile('./db/timelog.db'):
-    with open('./db/timelog.db', 'w'):
+if not os.path.isfile('timelog.db'):
+    with open('timelog.db', 'w'):
         pass
 # DBの接続
 DATABASE = 'sqlite:///timelog.db'

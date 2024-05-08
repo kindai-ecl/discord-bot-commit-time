@@ -3,8 +3,9 @@ from discord import app_commands
 import os
 from dotenv import load_dotenv
 from datetime import datetime, timedelta, timezone
-from io import StringIO
 
+import sys
+sys.path.append("../")
 from timelogger import total_time
 
 ## botの使い方
@@ -33,13 +34,13 @@ async def on_message(message):
 @client.event
 async def on_voice_state_update(member, before, after): 
     now = datetime.now(JST)
-    if before.channel is None and after.channel.category.name == "-----作成する-----":
+    if '室' in after.channel.name:
         print("%s : %sに参加しました",now.strftime('%Y-%m-%d %H:%M:%S'), after.channel.name)
-        channel = client.get_channel(os.getenv('CHANNEL_ID'))
+        channel = client.get_channel(874633285047840768)
         await channel.send(f"{member.name}が{after.channel.name}に参加しました")
-    elif after.channel is None:
+    elif '室' in before.channel.name:
         print("%s : %sを退出しました",now.strftime('%Y-%m-%d %H:%M:%S'), before.channel.name)
-        channel = client.get_channel(os.getenv('CHANNEL_ID'))
+        channel = client.get_channel(874633285047840768)
         await channel.send(f"{member.name}が{before.channel.name}を退出しました")
 
 
