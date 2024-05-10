@@ -46,8 +46,7 @@ async def on_voice_state_update(member, before, after):
 
 @tree.command(name="total_time",description="合計時間を表示します")
 async def total_time(interaction: discord.Interaction, user:discord.Member):
-    total_time = total_time(user.id)
-    await interaction.response.send_message("合計時間はです",ephemeral=True)
+    await interaction.response.send_message(user.name + "の合計時間はです",ephemeral=True)
 
 
 @tree.command(name="help",description="ヘルプを表示します")
