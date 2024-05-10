@@ -5,4 +5,5 @@ sudo mkdir -p ../db/timelog.db
 sudo pip3 install -r ../requirements.txt
 
 # bot run
-sudo python3 ../bot/bot.py
+cd ../bot
+sudo python3 bot.py
