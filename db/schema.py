@@ -25,8 +25,9 @@ class TimeLog(Base):
 
     id = Column('id', Integer, primary_key=True, autoincrement=True)
     user_id = Column('user_id', Integer, nullable=False)
-    start_time = Column('start_time', DateTime)
-    end_time = Column('end_time', DateTime)
+    timestamp = Column('start_time', DateTime)
+    status = Column('status', String(20))  # start or end
+
 
 if __name__ == "__main__":
     Base.metadata.create_all(bind=Engine)
