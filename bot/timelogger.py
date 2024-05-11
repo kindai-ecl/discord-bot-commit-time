@@ -8,9 +8,9 @@ def total_time(user_id: int):
     user = session.query(User).filter(User.user_id == user_id).first()
     return user.total_time
 
-def add_time_log(user_id: int, start_time: datetime, end_time: datetime):
+def stamp_time_log(user_id: int, timestamp: datetime, status: str):
     # ユーザーの時間ログを追加する
-    time_log = TimeLog(user_id=user_id, start_time=start_time, end_time=end_time)
+    time_log = TimeLog(user_id=user_id, timestamp=timestamp, status=status)
     session.add(time_log)
     session.commit()
 
