@@ -25,9 +25,9 @@ class TimeLog(Base):
 
     id = Column('id', Integer, primary_key=True, autoincrement=True)
     user_id = Column('user_id', Integer, nullable=False)
-    timestamp = Column('start_time', DateTime)
+    timestamp = Column('timestamp', DateTime)
     status = Column('status', String(20))  # start or end
 
 
-if __name__ == "__main__":
-    Base.metadata.create_all(bind=Engine)
+Base.metadata.create_all(bind=Engine)
+print('DBのテーブルを作成しました')

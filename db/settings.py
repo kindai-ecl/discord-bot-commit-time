@@ -5,7 +5,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy import event
 
 # DBの接続
-DATABASE = 'sqlite:///timelog.db'
+DATABASE = 'sqlite:///../db/timelog.db'
 
 Engine = create_engine(
     DATABASE,
