@@ -29,21 +29,25 @@ async def on_ready():
     await tree.sync()
     print('ログインしました')
 
-@client.event
-
-
+# VC入退室時の処理
 @client.event
 async def on_voice_state_update(member, before, after): 
     now = datetime.now(JST)
+    if timelogger.authorized(member.id) == False:
+        return
 
     if after.channel != None and '室' in after.channel.name:
         timelogger.stamp_time_log(member.id, now, 'start')
-
     elif before.channel != None and '室' in before.channel.name:
         timelogger.stamp_time_log(member.id, now, 'end')
         timelogger.update_total_time(member.id)
 
 ### コマンド実装部分 ###
+
+@tree.command(name="register",description="ユーザーを登録します")
+async def register(interaction: discord.Interaction, user:discord.Member):
+    timelogger.register_user(user.id, user.name)
+    await interaction.response.send_message(f"{user.mention}を登録しました",ephemeral=True)
 
 @tree.command(name="weekly_commit",description="直近1週間のログを表示します")
 async def weekly_commit(interaction: discord.Interaction, user:discord.Member):
@@ -63,8 +67,3 @@ async def help(interaction: discord.Interaction):
 
 # Botの起動とDiscordサーバーへの接続
 client.run(os.getenv('TOKEN'))
-
-
-
-
-
