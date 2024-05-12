@@ -28,7 +28,6 @@ def total_time(user_id: int):
 
 # ユーザーの時間ログを追加する
 def stamp_time_log(user_id: int, timestamp: datetime, status: str):
-    user = session.query(User).filter(User.user_id == user_id).first()
     time_log = TimeLog(user_id=user_id, timestamp=timestamp, status=status)
     session.add(time_log)
     session.commit()

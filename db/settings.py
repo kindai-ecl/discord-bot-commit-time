@@ -9,7 +9,7 @@ DATABASE = 'sqlite:///../db/timelog.db'
 
 Engine = create_engine(
     DATABASE,
-    echo=False
+    echo=True
 )
 Base = declarative_base()
 

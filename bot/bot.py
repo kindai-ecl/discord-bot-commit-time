@@ -33,7 +33,8 @@ async def on_ready():
 @client.event
 async def on_voice_state_update(member, before, after): 
     now = datetime.now(JST)
-    if timelogger.authorized(member.id) == False:
+    # ユーザーが登録されていない場合, チャンネル移動していない場合は処理を行わない
+    if timelogger.authorized(member.id) == False and before.channel == after.channel :
         return
 
     if after.channel != None and '室' in after.channel.name:
