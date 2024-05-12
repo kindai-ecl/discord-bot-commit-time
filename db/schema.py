@@ -1,8 +1,10 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime
+from sqlalchemy import Column, ForeignKey, Integer, String, Float, DateTime
 
 from .settings import Engine
 from .settings import Base
+from sqlalchemy.orm import relationship
 
+## init database tables
 
 class User(Base):
 
@@ -11,10 +13,13 @@ class User(Base):
         'comment': 'ユーザー情報のマスターテーブル'
     }
 
-    id = Column('id', Integer, primary_key=True, autoincrement=True)
-    user_id = Column('user_id', Integer, nullable=False)
+    user_id = Column('user_id', Integer, primary_key=True, nullable=False)
     name = Column('name', String(200))
-    total_time = Column('total_time', String)  # string format "H:MM"
+    total_min = Column('total_time', Integer, default=0)  # total time in minutes
+
+    TimeLog = relationship('TimeLog', backref='users')
+
+
 
 class TimeLog(Base):
 
@@ -24,9 +29,10 @@ class TimeLog(Base):
     }
 
     id = Column('id', Integer, primary_key=True, autoincrement=True)
-    user_id = Column('user_id', Integer, nullable=False)
-    start_time = Column('start_time', DateTime)
-    end_time = Column('end_time', DateTime)
+    user_id = Column('user_id', Integer, 
+                    ForeignKey('users.user_id', ondelete='CASCADE'), nullable=False, index=True)
+    timestamp = Column('timestamp', DateTime)
+    status = Column('status', String(20))  # start or end
 
-if __name__ == "__main__":
-    Base.metadata.create_all(bind=Engine)
+
+Base.metadata.create_all(bind=Engine)
