@@ -22,8 +22,8 @@ def total_time(user_id: int):
     user = session.query(User).filter(User.user_id == user_id).first()
     if user is None:
         return "ありません。登録が必要です。\n/register コマンドで登録してください"
-    min = user.total_time % 60
-    hour = user.total_time // 60
+    min = user.total_min % 60
+    hour = user.total_min // 60
     return f"{hour}時間{min}分です"
 
 # ユーザーの時間ログを追加する
