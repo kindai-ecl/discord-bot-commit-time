@@ -9,14 +9,14 @@ DATABASE = 'sqlite:///../db/timelog.db'
 
 Engine = create_engine(
     DATABASE,
-    echo=True
+    echo=False
 )
 Base = declarative_base()
 
 session = scoped_session(
     sessionmaker(
         autocommit = False,
-	    autoflush = False,
+	    autoflush = True,
 	    bind = Engine
     )
 )

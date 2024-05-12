@@ -55,7 +55,8 @@ async def weekly_commit(interaction: discord.Interaction, user:discord.Member):
 
 @tree.command(name="total_time",description="合計時間を表示します")
 async def total_time(interaction: discord.Interaction, user:discord.Member):
-    await interaction.response.send_message(user.name + "の合計時間はです",ephemeral=True)
+    time_str = timelogger.total_time(user.id)
+    await interaction.response.send_message(f"{user.mention}の合計時間は{time_str}",ephemeral=True)
 
 @tree.command(name="auto_role",description="自動ロールを設定します")
 async def auto_role(interaction: discord.Interaction):
