@@ -47,8 +47,8 @@ async def on_voice_state_update(member, before, after):
 
 @tree.command(name="register",description="ユーザーを登録します")
 async def register(interaction: discord.Interaction, user:discord.Member):
-    timelogger.register_user(user.id, user.name)
-    await interaction.response.send_message(f"{user.mention}を登録しました",ephemeral=True)
+    regist = timelogger.register_user(user.id, user.name)
+    await interaction.response.send_message(f"{user.mention} {regist}",ephemeral=True)
 
 @tree.command(name="weekly_commit",description="直近1週間のログを表示します")
 async def weekly_commit(interaction: discord.Interaction, user:discord.Member):
