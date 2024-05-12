@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from sqlalchemy import desc
+from sqlalchemy import desc, text
 from db.settings import session
 from db.schema import User, TimeLog
 
@@ -19,6 +19,18 @@ def authorized(user_id: int):
     if user is None:
         return False
     return True
+
+# ユーザーの直近1週間の時間ログを取得する
+def weekly_commit(user_id: int, start: datetime):
+    user = session.query(User).filter(User.user_id == user_id).first()
+    if user is None:
+        return "ありません。登録が必要です。\n/register コマンドで登録してください"
+    query = text("SELECT timestamp, status FROM time_logs WHERE user_id = :user_id and :start < timestamp;")
+    employee_list = session.execute(query, {"user_id": user_id, "start": start})
+    array = []
+    for row in employee_list:
+        array.append(f"{row[0]}: {row[1]}")
+    return array
 
 # ユーザーの合計時間を取得する
 def total_time(user_id: int):

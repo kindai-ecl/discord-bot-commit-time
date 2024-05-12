@@ -52,7 +52,10 @@ async def register(interaction: discord.Interaction, user:discord.Member):
 
 @tree.command(name="weekly_commit",description="直近1週間のログを表示します")
 async def weekly_commit(interaction: discord.Interaction, user:discord.Member):
-    await interaction.response.send_message(user.name + "の直近1週間のログはです",ephemeral=True)
+    now = datetime.now(JST)
+    weekly_commit = timelogger.weekly_commit(user.id , now - timedelta(days=7))
+    weekly_commit = '\n'.join(weekly_commit)
+    await interaction.response.send_message(f"{user.mention}の直近1週間のログです\n{weekly_commit}",ephemeral=True)
 
 @tree.command(name="total_time",description="合計時間を表示します")
 async def total_time(interaction: discord.Interaction, user:discord.Member):
