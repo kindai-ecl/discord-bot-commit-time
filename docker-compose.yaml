@@ -2,10 +2,14 @@ version: '3'
 services:
   python3:
     restart: always
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
     container_name: 'python3'
     tty: true
     volumes:
-      - .:/app
+      - type: bind
+        source: ./db/
+        target: /app/db/
     env_file:
       - .env
