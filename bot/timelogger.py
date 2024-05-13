@@ -6,7 +6,7 @@ from db.schema import User, TimeLog
 
 # ユーザーを追加する
 def register_user(user_id: int, name: str):
-    if authorized():
+    if authorized(user_id):
         return "すでに登録されています"
     user = User(user_id=user_id, name=name)
     session.add(user)
