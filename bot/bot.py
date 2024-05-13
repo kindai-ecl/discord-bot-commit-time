@@ -18,7 +18,7 @@ load_dotenv()
 JST = timezone(timedelta(hours=+9), 'JST')
 
 client = discord.Client(
-    intents=discord.Intents.all(),
+    intents=discord.Intents.default(),
     activity=discord.Game("研究🤖")
 )
 tree = app_commands.CommandTree(client)

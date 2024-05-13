@@ -1,6 +1,5 @@
 # 研究室で時間測る用のDiscordBot
-  ＊　Intents.voice_states を有効にする必要があります。
-
+インテントは現在デフォルトで使用できます。
 ## About
 電子商取引研究室で学生がリモートで研究を行う場合に使用します。
 卒業研究に必要な作業時間を担保するために明示的にDiscordのVCに入って作業をし研究時間を計測します。
@@ -22,3 +21,4 @@ init_run.sh
 
 ## コントリビューション
 [issue](https://github.com/kindai-ecl/discord-bot-commit-time/issues)から各自で作成してPR投げてくださいmm
+

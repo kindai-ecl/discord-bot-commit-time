@@ -12,4 +12,5 @@ VC(研究室，院生室，個室，会議室)に入室することで
     - そのユーザーの1週間のコミットログを表示します。
 - `/auto_role`
     - 自動で役職を付与します。未実装です。
+
 その他欲しい機能等ご要望は[issue](https://github.com/kindai-ecl/discord-bot-commit-time/issues)まで。
