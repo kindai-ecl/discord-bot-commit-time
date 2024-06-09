@@ -36,6 +36,10 @@ async def on_voice_state_update(member, before, after):
     # ユーザーが登録されていない場合, チャンネル移動していない場合は処理を行わない
     if timelogger.authorized(member.id) == False or before.channel == after.channel :
         return
+    
+    # 研究室間の移動は監視しない
+    if before.channel != None and after.channel != None and '室' in before.channel.name and '室' in after.channel.name:
+        return
 
     if after.channel != None and '室' in after.channel.name:
         timelogger.stamp_time_log(member.id, now, 'start')
