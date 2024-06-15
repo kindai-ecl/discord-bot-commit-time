@@ -4,75 +4,85 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime, timedelta, timezone
 
-import sys
-sys.path.append("../")
-import timelogger 
+import db.timelogger as timelogger
 
-## botの使い方
+# botの使い方
 lines = []
-with open(r'../doc/manual.md', encoding='utf-8') as f:
+with open(r"../doc/manual.md", encoding="utf-8") as f:
     lines = f.readlines()
-helpMessage = ''.join(lines)
+helpMessage = "".join(lines)
 
 load_dotenv()
-JST = timezone(timedelta(hours=+9), 'JST')
+JST = timezone(timedelta(hours=+9), "JST")
 
 client = discord.Client(
-    intents=discord.Intents.default(),
-    activity=discord.Game("研究🤖")
+    intents=discord.Intents.default(), activity=discord.Game("研究🤖")
 )
 tree = app_commands.CommandTree(client)
+
 
 # 起動時に動作する処理
 @client.event
 async def on_ready():
     await tree.sync()
-    print('ログインしました')
+    print("ログインしました")
+
 
 # VC入退室時の処理
 @client.event
-async def on_voice_state_update(member, before, after): 
+async def on_voice_state_update(member, before, after):
     now = datetime.now(JST)
     # ユーザーが登録されていない場合, チャンネル移動していない場合は処理を行わない
-    if timelogger.authorized(member.id) == False or before.channel == after.channel :
+    if not timelogger.authorized(member.id) or before.channel == after.channel:
         return
     
     # 研究室間の移動は監視しない
     if before.channel != None and after.channel != None and '室' in before.channel.name and '室' in after.channel.name:
         return
-
-    if after.channel != None and '室' in after.channel.name:
-        timelogger.stamp_time_log(member.id, now, 'start')
-    elif before.channel != None and '室' in before.channel.name:
-        timelogger.stamp_time_log(member.id, now, 'end')
+    
+    if after.channel is not None and "室" in after.channel.name:
+        timelogger.stamp_time_log(member.id, now, "start")
+    elif before.channel is not None and "室" in before.channel.name:
+        timelogger.stamp_time_log(member.id, now, "end")
         timelogger.update_total_time(member.id)
 
-### コマンド実装部分 ###
 
-@tree.command(name="register",description="ユーザーを登録します")
-async def register(interaction: discord.Interaction, user:discord.Member):
+# コマンド実装部分
+
+
+@tree.command(name="register", description="ユーザーを登録します")
+async def register(interaction: discord.Interaction, user: discord.Member):
     regist = timelogger.register_user(user.id, user.name)
-    await interaction.response.send_message(f"{user.mention} {regist}",ephemeral=True)
+    await interaction.response.send_message(f"{user.mention} {regist}", ephemeral=True)
 
-@tree.command(name="weekly_commit",description="直近1週間のログを表示します")
-async def weekly_commit(interaction: discord.Interaction, user:discord.Member):
+
+@tree.command(name="weekly_commit", description="直近1週間のログを表示します")
+async def weekly_commit(interaction: discord.Interaction, user: discord.Member):
     now = datetime.now(JST)
-    weekly_commit = timelogger.weekly_commit(user.id , now - timedelta(days=7))
-    weekly_commit = '\n'.join(weekly_commit)
-    await interaction.response.send_message(f"{user.mention}の直近1週間のログです\n{weekly_commit}",ephemeral=True)
+    weekly_commit = timelogger.weekly_commit(user.id, now - timedelta(days=7))
+    weekly_commit = "\n".join(weekly_commit)
+    await interaction.response.send_message(
+        f"{user.mention}の直近1週間のログです\n{weekly_commit}", ephemeral=True
+    )
 
-@tree.command(name="total_time",description="合計時間を表示します")
-async def total_time(interaction: discord.Interaction, user:discord.Member):
+
+@tree.command(name="total_time", description="合計時間を表示します")
+async def total_time(interaction: discord.Interaction, user: discord.Member):
     time_str = timelogger.total_time(user.id)
-    await interaction.response.send_message(f"{user.mention}の合計時間は{time_str}",ephemeral=True)
+    await interaction.response.send_message(
+        f"{user.mention}の合計時間は{time_str}", ephemeral=True
+    )
 
-@tree.command(name="auto_role",description="自動ロールを設定します")
+
+@tree.command(name="auto_role", description="自動ロールを設定します")
 async def auto_role(interaction: discord.Interaction):
-    await interaction.response.send_message("自動ロールを設定しました",ephemeral=True)
+    await interaction.response.send_message("自動ロールを設定しました", ephemeral=True)
 
-@tree.command(name="help",description="ヘルプを表示します")
+
+@tree.command(name="help", description="ヘルプを表示します")
 async def help(interaction: discord.Interaction):
-    await interaction.response.send_message(helpMessage,ephemeral=True)
+    await interaction.response.send_message(helpMessage, ephemeral=True)
+
 
 # Botの起動とDiscordサーバーへの接続
-client.run(os.getenv('TOKEN'))
+client.run(os.getenv("TOKEN"))
