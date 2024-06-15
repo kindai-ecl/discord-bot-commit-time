@@ -30,9 +30,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: lint check
-      run: black --check .
-
     - name: Format code with Black (on merge commit)
       if: github.event_name == 'pull_request'
       run: |
