@@ -24,6 +24,7 @@ def authorized(user_id: int):
     return False
 
 
+
 # ユーザーの直近1週間の時間ログを取得する
 def weekly_commit(user_id: int, start: datetime):
     user = session.query(User).filter(User.user_id == user_id).first()

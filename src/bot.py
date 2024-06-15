@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 
 import db.timelogger as timelogger
 
-# botの使い方
 lines = []
 with open(r"../doc/manual.md", encoding="utf-8") as f:
     lines = f.readlines()
