@@ -1,17 +1,18 @@
 name: lint and format
 
 on:
-  push:
-    branches:
-      - main  # マージ先のブランチ名を指定（必要に応じて変更）
   pull_request:
+    types: [opened, synchronize, reopened]
     branches:
-      - release
+      - main
       - develop
 
 jobs:
   auto-format:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./bot
     strategy:
       matrix:
         python-version: [3.12]
@@ -30,11 +31,21 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Format code with Black (on merge commit)
+    - name: Format code with autoflake
+      run: autoflake -r .
+
+    - name: Format code with Black
       if: github.event_name == 'pull_request'
-      run: |
-        black .
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
-        git commit -am "[AUTO] Format code with Black"
-        git push
+      run: black .
+
+    - name: Format code with isort
+      run: isort .
+
+    - name: auto commit
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "[AUTO] changed code by formater"
+        branch: ${{ github.event.pull_request.head.ref }}
+        author_name: ${{ github.actor }}
+        author_email: ${{ github.actor }}@users.noreply.github.com
+      

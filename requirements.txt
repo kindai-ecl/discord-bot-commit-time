@@ -10,6 +10,8 @@ python-dotenv==1.0.1
 
 # lint
 black
+autoflake
+isort
 
 # test
 coverage
