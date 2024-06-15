@@ -17,7 +17,7 @@ docker-compose up -d
 ```
 #### ローカル環境
 python環境を各自構築してください。
-anacondaを入れた場合(Jupiter Notebook等)をローカルに入れている場合は注意してください。
+anacondaを入れた場合(Jupiter Notebook等をローカルに入れている場合）は注意してください。
 
 1. python3をインストール
 2. pip3をインストール

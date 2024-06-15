@@ -18,9 +18,10 @@ def register_user(user_id: int, name: str):
 # ユーザーが存在するか確認する
 def authorized(user_id: int):
     user = session.query(User).filter(User.user_id == user_id).first()
-    if user is None:
-        return False
-    return True
+    if user :
+        return True
+    return False
+
 
 
 # ユーザーの直近1週間の時間ログを取得する

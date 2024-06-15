@@ -4,12 +4,9 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime, timedelta, timezone
 
-import sys
+import db.timelogger as timelogger
 
-sys.path.append("../")
-import timelogger
-
-## botの使い方
+# botの使い方
 lines = []
 with open(r"../doc/manual.md", encoding="utf-8") as f:
     lines = f.readlines()
@@ -36,17 +33,21 @@ async def on_ready():
 async def on_voice_state_update(member, before, after):
     now = datetime.now(JST)
     # ユーザーが登録されていない場合, チャンネル移動していない場合は処理を行わない
-    if timelogger.authorized(member.id) == False and before.channel == after.channel:
+    if not timelogger.authorized(member.id) or before.channel == after.channel:
         return
-
-    if after.channel != None and "室" in after.channel.name:
+    
+    # 研究室間の移動は監視しない
+    if before.channel != None and after.channel != None and '室' in before.channel.name and '室' in after.channel.name:
+        return
+    
+    if after.channel is not None and "室" in after.channel.name:
         timelogger.stamp_time_log(member.id, now, "start")
-    elif before.channel != None and "室" in before.channel.name:
+    elif before.channel is not None and "室" in before.channel.name:
         timelogger.stamp_time_log(member.id, now, "end")
         timelogger.update_total_time(member.id)
 
 
-### コマンド実装部分 ###
+# コマンド実装部分
 
 
 @tree.command(name="register", description="ユーザーを登録します")

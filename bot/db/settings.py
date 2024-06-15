@@ -1,11 +1,10 @@
-
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy import event
 
 # DBの接続
-DATABASE = "sqlite:///../db/timelog.db"
+DATABASE = "sqlite:///db/timelog.db"
 
 Engine = create_engine(DATABASE, echo=True)
 Base = declarative_base()
