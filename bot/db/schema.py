@@ -1,8 +1,7 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
-
-from .settings import Engine
-from .settings import Base
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
+
+from .settings import Base, Engine
 
 # init database tables
 
