@@ -9,7 +9,7 @@ services:
     tty: true
     volumes:
       - type: bind
-        source: ./db/
-        target: /app/db/
+        source: ./bot/db/
+        target: /app/bot/db/
     env_file:
       - .env
