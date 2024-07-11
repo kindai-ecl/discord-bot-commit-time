@@ -11,5 +11,5 @@ RUN pip install -r ./requirements.txt
 
 COPY . .
 
-WORKDIR /app/bot
+WORKDIR /app/src
 CMD ["python3", "bot.py"]
