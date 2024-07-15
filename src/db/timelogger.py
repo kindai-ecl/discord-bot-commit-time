@@ -1,8 +1,9 @@
 from datetime import datetime, timedelta
 
 from sqlalchemy import desc, text
+
+from db.schema import TimeLog, User
 from db.settings import session
-from db.schema import User, TimeLog
 
 
 # ユーザーを追加する
@@ -18,9 +19,10 @@ def register_user(user_id: int, name: str):
 # ユーザーが存在するか確認する
 def authorized(user_id: int):
     user = session.query(User).filter(User.user_id == user_id).first()
-    if user :
+    if user:
         return True
     return False
+
 
 
 # ユーザーの直近1週間の時間ログを取得する

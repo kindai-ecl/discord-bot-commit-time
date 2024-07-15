@@ -1,0 +1,49 @@
+name: lint and format
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - develop
+
+jobs:
+  auto-format:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: /src
+    strategy:
+      matrix:
+        python-version: [3.12]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install autoflake black isort
+
+    - name: Format code with autoflake
+      run: autoflake -r .
+
+    - name: Format code with Black
+      if: github.event_name == 'pull_request'
+      run: black .
+
+    - name: Format code with isort
+      run: isort .
+
+    - name: auto commit
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "[AUTO] changed code by formater"
+        branch: ${{ github.event.pull_request.head.ref }}
+      

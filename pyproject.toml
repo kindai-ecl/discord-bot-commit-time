@@ -1,0 +1,17 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "discordbot"
+
+[tool.pytest.ini_options]
+pythonpath = "src"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+omit = [
+    "src/bot.py",
+    "src/db/schema.py", 
+    "src/db/settings.py"
+]

@@ -1,12 +1,12 @@
+import os
+from datetime import datetime, timedelta, timezone
+
 import discord
 from discord import app_commands
-import os
 from dotenv import load_dotenv
-from datetime import datetime, timedelta, timezone
 
 import db.timelogger as timelogger
 
-# botの使い方
 lines = []
 with open(r"../doc/manual.md", encoding="utf-8") as f:
     lines = f.readlines()
@@ -35,11 +35,16 @@ async def on_voice_state_update(member, before, after):
     # ユーザーが登録されていない場合, チャンネル移動していない場合は処理を行わない
     if not timelogger.authorized(member.id) or before.channel == after.channel:
         return
-    
+
     # 研究室間の移動は監視しない
-    if before.channel != None and after.channel != None and '室' in before.channel.name and '室' in after.channel.name:
+    if (
+        before.channel != None
+        and after.channel != None
+        and "室" in before.channel.name
+        and "室" in after.channel.name
+    ):
         return
-    
+
     if after.channel is not None and "室" in after.channel.name:
         timelogger.stamp_time_log(member.id, now, "start")
     elif before.channel is not None and "室" in before.channel.name:

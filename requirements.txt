@@ -7,3 +7,12 @@ SQLAlchemy==2.0.29
 # grobal
 multidict==6.0.5
 python-dotenv==1.0.1
+
+# lint
+black
+autoflake
+isort
+
+# test
+pytest-cov
+pytest
