@@ -60,7 +60,8 @@ async def register(interaction: discord.Interaction, user: discord.Member):
 async def weekly_commit(interaction: discord.Interaction, user: discord.Member):
     now = datetime.now(JST)
     weekly_commit = timelogger.weekly_commit(user.id, now - timedelta(days=7))
-    weekly_commit = "\n".join(weekly_commit)
+    if weekly_commit[0] != 'あ' :
+        weekly_commit = "\n".join(weekly_commit)
     await interaction.response.send_message(
         f"{user.mention}の直近1週間のログです\n{weekly_commit}", ephemeral=True
     )
