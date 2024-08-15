@@ -45,6 +45,7 @@ git pull
 docker compose build --no-cache
 docker compose up -d
 ```
+Docker Desktopから管理できます。（python3というimage名をつけています。）<br>
 CDの実装はssh deploymentになるので難しいかも
 
 ## コントリビューション
